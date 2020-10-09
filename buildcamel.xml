@@ -1,0 +1,39 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="hello-ivy" default="run">
+
+<target name="clean">
+        <delete dir="build"/>
+    </target>
+    
+    <presetdef name="javac">
+    <javac includeantruntime="false" />
+  </presetdef>
+    
+
+  <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <!-- =================================
+          target: resolve
+         ================================= -->
+<target name="resolve" description="resolve project dependencies">
+  
+  <ivy:retrieve sync="true" type="jar, bundle" pattern="lib/[conf]/[artifact].[ext]"/>
+</target>
+    
+
+ <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/StartCamel.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="HelloWord"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+<target name="run">
+        <java jar="build/jar/StartCamel.jar" fork="true"/>
+</target>
+</project>
